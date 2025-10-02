@@ -14,8 +14,14 @@ A Flask-based web application to fetch Indian court case details, download judgm
 - API endpoints for programmatic access (JSON responses).
 
 ---
-
 ## Demo Screenshot
+<img width="1920" height="1080" alt="Screenshot (33)" src="https://github.com/user-attachments/assets/e36d1c56-1ab0-4de6-81f5-4179fa7171d9" />
+
+<img width="1920" height="1080" alt="Screenshot (34)" src="https://github.com/user-attachments/assets/87642c65-b02a-4966-b3aa-f8c6886229a3" />
+
+<img width="1920" height="1080" alt="Screenshot (35)" src="https://github.com/user-attachments/assets/c68465cf-0f8e-4037-b0a6-8822c17dba98" />
+
+<img width="1920" height="1080" alt="Screenshot (36)" src="https://github.com/user-attachments/assets/116947db-8e21-4fea-8c88-d72327e3562d" />
 
 
 ## Tools & Libraries Used
