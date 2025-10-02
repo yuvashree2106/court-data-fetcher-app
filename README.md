@@ -1,78 +1,77 @@
-I created a working, single-file proof-of-concept web app you can run immediately that implements the UI, storage, parsing pipeline, PDF download, and cause-list download flow. The file is in the canvas as “Ecourts-case-fetcher-flask” and contains:
+A Flask-based web application to fetch Indian court case details, download judgments/orders, and generate cause lists. Supports High Courts and District Courts via their official eCourts portals and demonstrates a pluggable scraper architecture for easy extension
 
-What I gave you
+## Features
 
-A full app.py-style Flask single-file app (in the canvas) that:
+- Simple, responsive UI with **dropdowns** for Court, Case Type, Case Number, and Year.
+- **Fetch case details** (Parties, Filing Date, Next Hearing, Status) using a modular scraper architecture.
+- **Download judgments/orders as PDF**.
+- **Cause List generator** (demo).
+- **Query history dashboard** with cards and status indicators.
+- **Interactive charts**:
+  - Doughnut chart for cases by status (`OK`, `Error`, `Not Found`)
+  - Bar chart for cases per court.
+- SQLite database for storing **queries, raw responses, and PDF paths**.
+- API endpoints for programmatic access (JSON responses).
 
-Presents a simple UI form (Case Type, Case Number, Year, Court selection).
+---
 
-Stores each query and raw response in SQLite (SQLAlchemy).
-
-Has a pluggable BaseScraper architecture and a DummyScraper that demonstrates the full flow (parsing, storing, generating a demo PDF).
-
-Saves PDFs to a pdfs/ folder and serves them for download.
-
-A cause-list endpoint that demonstrates storing/downloading a cause-list PDF.
-
-An example API endpoint /api/fetch for programmatic calls.
-
-Error handling for common failure cases and explicit comments showing where/ how to implement real scrapers.
-
-Why a dummy scraper?
-
-eCourts portals differ across High Courts and District Courts; many pages are JavaScript-driven or use different search endpoints. To give you a runnable end-to-end demo right away, I implemented a DummyScraper and a robust scaffold with clear, commented instructions and extension points where you plug in real scrapers (requests/BeautifulSoup for static pages or Selenium/Playwright for JS-heavy pages).
-
-How to extend to real courts
-
-Implement a subclass of BaseScraper for each court (or group of courts) you want to support, for example DelhiHighCourtScraper, KarnatakaHighCourtScraper, DistrictCourtXYZScraper.
-
-Two approaches:
-
-requests + BeautifulSoup — for pages that render server-side and return HTML/JSON.
-
-Selenium / Playwright — for pages that require JS interaction, form tokens, or dynamic requests (fill fields, click search, wait for results).
-
-In your fetch implementation:
-
-Search the court portal using the fields (case_type, case_number, year).
-
-Parse parties’ names, filing date, next hearing date, case status.
-
-If a judgment/order PDF link is present, download the PDF bytes and return them in ScraperResult.pdf_bytes.
-
-Return raw HTML/JSON in ScraperResult.raw_response so it’s stored in the DB.
-
-Register the new scraper in SCRAPER_REGISTRY with a unique key and it will appear in the UI.
-
-Security, politeness & production considerations
-
-Respect robots.txt, terms of service, and rate limits. Add sleeps and caching; avoid hammering court servers.
-
-Use official APIs where available — many courts provide structured services if you request access.
-
-For production, run behind a WSGI server (gunicorn/uvicorn), add authentication and logging, and store PDFs in durable object storage (S3) rather than local disk.
-
-Handling captchas or login-protected resources will require manual steps or partner APIs.
-
-How to run the demo locally
-
-Copy the code from the canvas file Ecourts-case-fetcher-flask into app.py on your machine (or download it).
-
-Create a virtual environment and install dependencies:
-
-python -m venv venv
-source venv/bin/activate     # or `venv\\Scripts\\activate` on Windows
-pip install flask flask_sqlalchemy sqlalchemy requests beautifulsoup4 reportlab
+## Demo Screenshot
 
 
-Install selenium if you’ll implement Selenium scrapers; install chromedriver / geckodriver as appropriate.
+## Tools & Libraries Used
 
-Run:
+- **Python 3**
+- **Flask** – Web framework
+- **Flask-SQLAlchemy** – Database ORM
+- **SQLite** – Lightweight database for demo
+- **ReportLab** – Generate PDF files
+- **Chart.js** – Interactive charts for dashboard
+- **Jinja2** – HTML templating
+- **ChatGPT** – Assisted in improving UI/UX
 
-python app.py
+  for real scrapers:  
 
+- **Requests** – HTTP requests  
+- **BeautifulSoup4** – HTML parsing  
+- **Selenium** – For JS-heavy court portals
 
-Open http://127.0.0.1:5000 — submit a demo query and download the generated PDF from history.
-I can convert the UI into a React single-file preview or split the Flask app into a backend + React frontend.
+---
 
-I can add rate-limiting, caching, and a simple scheduler to fetch cause lists daily and store them.
+## Setup & Installation
+
+1. **Clone the repository**
+
+```bash
+**git clone https://github.com/your-username/ecourts-case-fetcher.git
+cd ecourts-case-fetcher**
+
+Create a virtual environment
+
+**python -m venv venv**
+
+Activate the virtual environment
+
+PowerShell:
+
+**.\venv\Scripts\Activate.ps1**
+
+CMD:
+
+**venv\Scripts\activate.bat**
+
+Install dependencies
+
+**pip install -r requirements.txt**
+
+If requirements.txt is not present, install manually:
+
+**pip install flask flask_sqlalchemy sqlalchemy reportlab requests beautifulsoup4 selenium**
+
+Run the Flask app
+
+**python app.py**
+
+Open in browser
+Go to http://127.0.0.1:5000
+git clone https://github.com/your-username/court-data-fetcher.git
+cd court-data-fetcher
